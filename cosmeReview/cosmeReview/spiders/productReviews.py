@@ -30,22 +30,22 @@ class cosmeSpider(scrapy.Spider):
             
             review_page_url = f"https://www.cosme.net/products/{product_id}/review/"
 
+            yield {
+                "product_data" : {
+                    "product_name": product_name,
+                    "product_url": product_url,
+                    "product_id": product_id,
+                    "product_rating": product_rating,
+                    "brand_name": brand_name,
+                    "brand_url": brand_url,
+                    "brand_id": brand_id,
+                    "review_page_url" : review_page_url
+                }
+            }
 
             yield scrapy.Request(
                 url=review_page_url, 
                 callback=self.parse_reviews, 
-                meta={
-                    "product_data" : {
-                        "product_name": product_name,
-                        "product_url": product_url,
-                        "product_id": product_id,
-                        "product_rating": product_rating,
-                        "brand_name": brand_name,
-                        "brand_url": brand_url,
-                        "brand_id": brand_id,
-                        "review_page_url" : review_page_url
-                    }
-                }
             )
             
 
@@ -58,12 +58,10 @@ class cosmeSpider(scrapy.Spider):
             review_url = f"https://www.cosme.net/reviews/{review_id}/"
 
 
-
             yield scrapy.Request(
                 url=review_url,
                 callback=self.parse_review,
                 meta={
-                    "product_data" : response.request.meta['product_data'],
                     "review_url" : review_url,
                     "review_id" : review_id
                 }
@@ -88,11 +86,8 @@ class cosmeSpider(scrapy.Spider):
         for text in review_texts:
             review_text += text
 
-        product_data = response.request.meta['product_data']
-        product_data["product_ranking"] = product_ranking
 
         yield {
-            "product_data" : product_data,
 
             "review_data" : {
                 "review_id" : response.request.meta['review_id'],

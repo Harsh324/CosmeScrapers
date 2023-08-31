@@ -9,4 +9,6 @@ import scrapy
 class CosmereviewItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    pass
+    product_data = scrapy.Field()
+    review_data = scrapy.Field()
+    user_data = scrapy.Field()
