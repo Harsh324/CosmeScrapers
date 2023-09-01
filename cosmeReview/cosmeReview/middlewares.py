@@ -100,4 +100,13 @@ class CosmereviewDownloaderMiddleware:
         pass
 
     def spider_opened(self, spider):
+        
         spider.logger.info("Spider opened: %s" % spider.name)
+
+class ProxyMiddleware(object):
+
+    def process_request(self, request, spider):
+        request.meta['proxy'] = 'http://brd-customer-hl_c4d84340-zone-cosme_datacenter:gdf4vc87oqq9@brd.superproxy.io:22225'
+        # request.meta['proxy'] = 'http://brd-customer-hl_c4d84340-zone-testing_datacenter:6mykvj759jkl@brd.superproxy.io:22225'
+        # request.meta['proxy'] = 'http://brd-customer-hl_c4d84340-zone-testing:su1m4td6rxw0@brd.superproxy.io:22225'
+        pass

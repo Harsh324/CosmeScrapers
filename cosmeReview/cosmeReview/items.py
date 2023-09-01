@@ -5,10 +5,24 @@
 
 import scrapy
 
+class reviewItem(scrapy.Item):
+    productId = scrapy.Field()
+    productName = scrapy.Field()
+    productUrl = scrapy.Field()
+    productRating = scrapy.Field()
+    productRanking = scrapy.Field()
 
-class CosmereviewItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    product_data = scrapy.Field()
-    review_data = scrapy.Field()
-    user_data = scrapy.Field()
+    brandId = scrapy.Field()
+    brandName = scrapy.Field()
+    brandUrl = scrapy.Field()
+
+    reviewId = scrapy.Field()
+    reviewUrl = scrapy.Field()
+    reviewRating = scrapy.Field()
+    reviewText = scrapy.Field()
+
+    userId = scrapy.Field()
+    userName = scrapy.Field()
+    userAge = scrapy.Field()
+    userUrl = scrapy.Field()
+

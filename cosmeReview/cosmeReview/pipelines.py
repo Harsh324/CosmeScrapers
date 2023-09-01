@@ -1,53 +1,26 @@
-# Define your item pipelines here
-#
-# Don't forget to add your pipeline to the ITEM_PIPELINES setting
-# See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-
-
-# useful for handling different item types with a single interface
-from itemadapter import ItemAdapter
-from datetime import date
 import csv
+from .items import reviewItem
+from datetime import date
 
-class CosmereviewPipeline:
+
+class CosmeReviewPipeline:
     def __init__(self):
         pass
 
     def open_spider(self, spider):
         filedate = date.today().strftime("%Y%m%d")
-        filename = filedate + '_product_reviews.csv'
-        self.filename = open(filename, mode='w', encoding='utf_8_sig')
+        filename = filedate + '_review.csv'
+        self.filename = open(filename, mode='w', encoding='utf_8_sig', newline='')
         self.csv_analysis = csv.writer(self.filename, quoting=csv.QUOTE_ALL)
-        self.csv_analysis.writerow(['サイトID', 'プランID', 'url', '収集日', '検索日', 'TOP画像URL', '会員価格', '通常価格', '残り部屋数', 'プラン名', 'プラン基本情報', 'プラン詳細情報', '客室名', '客室タグ', '客室基本情報', '人数', 'ポイント'])
+        self.csv_analysis.writerow(["Product ID", "Product Name", "Product URL", "Product Rating", "Product Ranking", "Brand ID", "Brand Name", "Brand URL", "Review ID","Review URL", "Review Rating", "Review Text", "User ID", "User Name", "User Age", "User URL"])
 
     def close_spider(self, spider):
         self.filename.close()
 
     def process_item(self, item, spider):
-    
-        product_data = item['product_data']
-        review_data = item['review_data']
-        user_data = item['user_data']
-        
-        self.csv_analysis.writerow([
-            product_data.get("product_name", ""),
-            product_data.get("product_url", ""),
-            product_data.get("product_id", ""),
-            product_data.get("product_rating", ""),
-            product_data.get("brand_name", ""),
-            product_data.get("brand_url", ""),
-            product_data.get("brand_id", ""),
-            product_data.get("review_page_url", ""),
-            review_data.get("review_id", ""),
-            review_data.get("review_url", ""),
-            review_data.get("review_rating", ""),
-            review_data.get("review_text", ""),
-            user_data.get("user_id", ""),
-            user_data.get("user_name", ""),
-            user_data.get("user_age", ""),
-            user_data.get("user_url", "")
-        ])
+        if isinstance(item, reviewItem):
+            self.csv_analysis.writerow([item['productId'], item['productName'], item['productUrl'], item['productRating'], item['productRanking'], item['brandId'], item['brandName'], item['brandUrl'], item['reviewId'], item['reviewUrl'], item['reviewRating'], item['reviewText'], item['userId'], item['userName'], item['userAge'], item['userUrl']])
 
-        return item
+
 
 
