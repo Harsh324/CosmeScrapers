@@ -9,7 +9,7 @@ class CosmeReviewPipeline:
 
     def open_spider(self, spider):
         filedate = date.today().strftime("%Y%m%d")
-        filename = filedate + '_review.csv'
+        filename = '_review1.csv'
         self.filename = open(filename, mode='w', encoding='utf_8_sig', newline='')
         self.csv_analysis = csv.writer(self.filename, quoting=csv.QUOTE_ALL)
         self.csv_analysis.writerow(["Product ID", "Product Name", "Product URL", "Product Rating", "Product Ranking", "Brand ID", "Brand Name", "Brand URL", "Review ID","Review URL", "Review Rating", "Review Text", "User ID", "User Name", "User Age", "User URL"])
